@@ -1,229 +1,211 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resume Parsor</title>
-    {% tailwind_css %}
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
-    <script
-      src="https://kit.fontawesome.com/3ec3c5eb83.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body class="bg-gray-100 h-screen flex flex-col justify-center items-center">
-    <div
-      class="my-20 p-6 w-full md:max-w-2xl lg:max-w-3xl xl:max-w-5xl bg-white 2xl:space-y-10 shadow-md rounded-lg"
-    >
-      <div class="pt-4 text-blue-600 text-center space-y-3">
-        <h1 class="text-3xl md:text-5xl font-bold">
-          Parse Your Resume in Seconds  
-        </h1>
-        <p class="text-base text-gray-700 md:text-lg">
-          Upload your resume and let our AI extract all the important details
-          for you.
-        </p>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Parsor</title>
+  {% tailwind_css %}
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+  <script src="https://kit.fontawesome.com/3ec3c5eb83.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-gray-100 h-screen flex flex-col justify-center items-center">
+
+  <div class="theme relative top-10 left-[700px]">
+    <label class="relative inline-flex items-center cursor-pointer mt-12">
+      <input class="sr-only peer" value="" type="checkbox" />
+      <div
+        class="w-16 h-8 rounded-full ring-0 peer duration-500 outline-none bg-gray-200 overflow-hidden before:flex before:items-center before:justify-center after:flex after:items-center after:justify-center before:content-['☀️'] before:absolute before:h-6 before:w-6 before:top-1/2 before:bg-white before:rounded-full before:left-1 before:-translate-y-1/2 before:transition-all before:duration-700 peer-checked:before:opacity-0 peer-checked:before:rotate-90 peer-checked:before:-translate-y-full shadow-lg shadow-gray-400 peer-checked:shadow-lg peer-checked:shadow-gray-700 peer-checked:bg-[#383838] after:content-['🌑'] after:absolute after:bg-[#1d1d1d] after:rounded-full after:top-[4px] after:right-1 after:translate-y-full after:w-6 after:h-6 after:opacity-0 after:transition-all after:duration-700 peer-checked:after:opacity-100 peer-checked:after:rotate-180 peer-checked:after:translate-y-0">
       </div>
-      <form
-        action="{% url 'parse_resume' %}"
-        onsubmit="return formValidation()"
-        method="post"
-        enctype="multipart/form-data"
-      >
-        {% csrf_token %} 
-        {% comment %} Section-1 {% endcomment %}
-        <div
-         id="ta-1" class="mb-6 p-4 caret-blue-600 border border-gray-400 focus-within:border-2 focus-within:border-blue-600 rounded-lg text-center"
-        >
-          <textarea
-            placeholder="Enter The Job Describtion"
-            name="jd_a"
-            id="jd-1"
-            class="w-full h-24 lg:h-40 text-justify outline-none resize-none focus:ring-0 border-none bg-white"
-          ></textarea>
+    </label>
+  </div>
+  
+
+  <div class="my-20 p-6 w-full md:max-w-2xl lg:max-w-3xl xl:max-w-5xl bg-white 2xl:space-y-10 shadow-md rounded-lg">
+    <div class="pt-4 text-blue-600 text-center space-y-3">
+      <h1 class="text-3xl md:text-5xl font-bold">
+        Parse Your Resume in Seconds
+      </h1>
+      <p class="text-base text-gray-700 md:text-lg">
+        Upload your resume and let our AI extract all the important details
+        for you.
+      </p>
+    </div>
+    <form action="{% url 'parse_resume' %}" onsubmit="return formValidation()" method="post"
+      enctype="multipart/form-data">
+      {% csrf_token %}
+      {% comment %} Section-1 {% endcomment %}
+      <div id="ta-1"
+        class="mb-6 p-4 caret-blue-600 border border-gray-400 focus-within:border-2 focus-within:border-blue-600 rounded-lg text-center">
+        <textarea placeholder="Enter The Job Describtion" name="jd_a" id="jd-1"
+          class="w-full h-24 lg:h-40 text-justify outline-none resize-none focus:ring-0 border-none bg-white"></textarea>
+      </div>
+
+      <div
+        class="mb-6 p-4  caret-blue-600 border border-gray-400 focus-within:border-2 focus-within:border-blue-600 rounded-lg text-center flex flex-col justify-center items-center">
+        <div class="cursor-pointer  transition duration-300 flex justify-center items-center"
+          onclick="toggleTextarea()">
+          <svg class="stroke-blue-600 fill-none hover:fill-white active:rotate-45 transition duration-300"
+            viewBox="0 0 24 24" height="35px" width="50px" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-width="1.5"
+              d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"></path>
+            <path stroke-width="1.5" d="M8 12H16"></path>
+            <path id="btn-icon" stroke-width="1.5" d="M12 16V8"></path>
+          </svg>
+          <p>Add Another Job Description (Optional)</p>
         </div>
 
-        <div class="mb-6 p-4  caret-blue-600 border border-gray-400 focus-within:border-2 focus-within:border-blue-600 rounded-lg text-center flex flex-col justify-center items-center">
-          <div class="cursor-pointer  transition duration-300 flex justify-center items-center" onclick="toggleTextarea()">
-            <svg class="stroke-blue-600 fill-none hover:fill-white active:rotate-45 transition duration-300" viewBox="0 0 24 24" height="35px" width="50px" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-width="1.5" d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"></path>
-              <path stroke-width="1.5" d="M8 12H16"></path>
-              <path id="btn-icon" stroke-width="1.5" d="M12 16V8"></path>
-            </svg>
-            <p>Add Another Job Description (Optional)</p>
-          </div>
-        
-          <textarea
-            placeholder="Enter The Job Description (Optional)"
-            name="jd_b"
-            id="jd-2"
-            class="hidden w-full h-24 lg:h-40 resize-none text-justify outline-none focus:ring-0 border-none bg-white"
-          ></textarea>
-        
+        <textarea placeholder="Enter The Job Description (Optional)" name="jd_b" id="jd-2"
+          class="hidden w-full h-24 lg:h-40 resize-none text-justify outline-none focus:ring-0 border-none bg-white"></textarea>
+
+      </div>
+
+      {% comment %} Section-2 {% endcomment %}
+      <div class="py-2 border border-dashed border-black hover:border-blue-600 rounded-lg text-center">
+        <div>
+          <p class="mt-2 text-gray-700">Drag and Drop your resume here</p>
+          <p class="text-sm text-gray-500">
+            Supported formats: PDF, DOC, DOCX <br> (Max Size: 200KB)
+          </p>
+        </div>
+        <div class="w-40 mt-4 mx-auto bg-blue-600 text-white py-2 rounded-lg">
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          <label for="file-upload" class=""> Upload Resume </label>
+          <input id="file-upload" name="resume" type="file" class="hidden" onchange="validateFileType(this)" />
         </div>
 
-        {% comment %} Section-2 {% endcomment %}
-        <div
-          class="py-2 border border-dashed border-black hover:border-blue-600 rounded-lg text-center"
-        >
-          <div>
-            <p class="mt-2 text-gray-700">Drag and Drop your resume here</p>
-            <p class="text-sm text-gray-500">
-              Supported formats: PDF, DOC, DOCX <br> (Max Size: 200KB)  
-            </p>
+        <div class="my-2 flex justify-center gap-3">
+          <div class="flex flex-col">
+            <p id="file-name" class="w-52 sm:w-64 text-black bg-orange-200"></p>
+            <p id="file-size" class="text-red-600"></p>
           </div>
-          <div
-            class="w-40 mt-4 mx-auto bg-blue-600 text-white py-2 rounded-lg"
-          >
-            <i class="fa-solid fa-arrow-up-from-bracket"></i>
-            <label for="file-upload" class=""> Upload Resume </label>
-            <input
-              id="file-upload"
-              name="resume"
-              type="file"
-              class="hidden"
-              onchange="validateFileType(this)"
-            />
-          </div>
-
-            <div class="my-2 flex justify-center gap-3">
-              <div class="flex flex-col">
-                <p
-                  id="file-name"
-                  class="w-52 sm:w-64 text-black bg-orange-200"
-                ></p>
-                <p id="file-size" class="text-red-600"></p>
-              </div>
-               <button class="hidden" id="remove-btn" onclick="removeFile()"> 
-                <i class="fa-regular fa-trash-can fa-lg text-red-500"></i> 
-              </button>
-          </div>
-        </div>
-
-        {% comment %} Section-3 {% endcomment %} 
-        <div class="btn flex justify-center">
-          <button
-            class="w-full md:w-72 mt-4 py-3 bg-blue-600 text-white text-base rounded-lg hover:bg-blue-700"
-          >
-            Parse Resume
+          <button class="hidden" id="remove-btn" onclick="removeFile()">
+            <i class="fa-regular fa-trash-can fa-lg text-red-500"></i>
           </button>
         </div>
-        
-        </div>
-      </form>
-    </div>
+      </div>
 
-    <!-- Loading Animation -->
-    <div
-      id="loading"
-      style="display: none"
-      class="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center gap-10 z-50"
-    >
-      <div class="loader"></div>
-      <p class="text-white mt-3">Parsing resume, please wait...</p>
-    </div>
+      {% comment %} Section-3 {% endcomment %}
+      <div class="btn flex justify-center">
+        <button class="w-full md:w-72 mt-4 py-3 bg-blue-600 text-white text-base rounded-lg hover:bg-blue-700">
+          Parse Resume
+        </button>
+      </div>
 
-    {% comment %} script to handle file type {% endcomment %}
-    <script>
-      function validateFileType(input) {
-        const file = input.files[0];
-        const file_size = document.getElementById("file-size");
-        const removeBtn = document.getElementById("remove-btn");
-        const file_name = document.getElementById("file-name");
-        if (file) {
-          const allowedExtensions = ["pdf", "docx"];
-          const fileExtension = file.name.split(".").pop().toLowerCase();
-          if (!allowedExtensions.includes(fileExtension)) {
-            alert("Invalid file type. Only PDF and DOCX files are allowed.");
-            input.value = "";
-            file_name.textContent = "";
-            removeBtn.classList.add("hidden");
-            return false;
-          }
+  </div>
+  </form>
+  </div>
 
-          if (file.size > 200 * 1024) {
-            file_size.innerText = "File size Exceed to 200KB";
-            input.value = "";
-            file_name.textContent = "";
-            removeBtn.classList.add("hidden");
-            return false;
-          }
+  <!-- Loading Animation -->
+  <div id="loading" style="display: none"
+    class="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center gap-10 z-50">
+    <div class="loader"></div>
+    <p class="text-white mt-3">Parsing resume, please wait...</p>
+  </div>
 
-          file_name.textContent = file.name;
-          file_size.innerText = "";
-          removeBtn.classList.remove("hidden");
-        }
-        return true;
-      }
-
-      function removeFile() {
-        document.getElementById("file-name").textContent = "";
-        document.getElementById("file-upload").value = "";
-        document.getElementById("remove-btn").classList.add("hidden");
-      }
-
-      function formValidation() {
-        const jd_1 = document.getElementById("jd-1").value.trim();
-        const jd_2 = document.getElementById("jd-2").value.trim();
-        const upload = document.getElementById("file-upload").files.length;
-        const submitButton = document.querySelector("button[type='submit']");
-        const loadingDiv = document.getElementById("loading");
-
-        if (jd_1 === "" && upload === 0) {
-          alert("Fields should not be empty!");
+  {% comment %} script to handle file type {% endcomment %}
+  <script>
+    function validateFileType(input) {
+      const file = input.files[0];
+      const file_size = document.getElementById("file-size");
+      const removeBtn = document.getElementById("remove-btn");
+      const file_name = document.getElementById("file-name");
+      if (file) {
+        const allowedExtensions = ["pdf", "docx"];
+        const fileExtension = file.name.split(".").pop().toLowerCase();
+        if (!allowedExtensions.includes(fileExtension)) {
+          alert("Invalid file type. Only PDF and DOCX files are allowed.");
+          input.value = "";
+          file_name.textContent = "";
+          removeBtn.classList.add("hidden");
           return false;
         }
-        if (upload === 0) {
-          alert("File should be Uploaded");
+
+        if (file.size > 200 * 1024) {
+          file_size.innerText = "File size Exceed to 200KB";
+          input.value = "";
+          file_name.textContent = "";
+          removeBtn.classList.add("hidden");
           return false;
         }
-        if (jd_1 === "") {
-          alert("Primary Field should not be3 Empty");
-          return false;
-        }
-        if (loadingDiv) {
-          loadingDiv.style.display = "flex";
-        }
 
-        submitButton.disabled = true;
-        submitButton.classList.add("opacity-50", "cursor-not-allowed");
+        file_name.textContent = file.name;
+        file_size.innerText = "";
+        removeBtn.classList.remove("hidden");
+      }
+      return true;
+    }
 
-        return true;
+    function removeFile() {
+      document.getElementById("file-name").textContent = "";
+      document.getElementById("file-upload").value = "";
+      document.getElementById("remove-btn").classList.add("hidden");
+    }
+
+    function formValidation() {
+      const jd_1 = document.getElementById("jd-1").value.trim();
+      const jd_2 = document.getElementById("jd-2").value.trim();
+      const upload = document.getElementById("file-upload").files.length;
+      const submitButton = document.querySelector("button[type='submit']");
+      const loadingDiv = document.getElementById("loading");
+
+      if (jd_1 === "" && upload === 0) {
+        alert("Fields should not be empty!");
+        return false;
+      }
+      if (upload === 0) {
+        alert("File should be Uploaded");
+        return false;
+      }
+      if (jd_1 === "") {
+        alert("Primary Field should not be3 Empty");
+        return false;
+      }
+      if (loadingDiv) {
+        loadingDiv.style.display = "flex";
       }
 
-      function toggleTextarea() {
-        let textarea = document.getElementById("jd-2");
-        let icon = document.getElementById("btn-icon");
-        textarea.classList.toggle("hidden");
-        if (textarea.classList.contains("hidden")) {  
-          textarea.value = "";  
-          icon.classList.remove("hidden");
-        } else {
-          icon.classList.add("hidden");
-        }
-      }
+      submitButton.disabled = true;
+      submitButton.classList.add("opacity-50", "cursor-not-allowed");
 
-      window.onload = function () {
-        let fileInput = document.getElementById("file-upload");
-        let fileNameElement = document.getElementById("file-name");
-        let fileSizeElement = document.getElementById("file-size");
-        let removeBtn = document.getElementById("remove-btn");
-  
-        if (fileInput) {
-            fileInput.value = ""; 
-        }
-        if (fileNameElement) {
-            fileNameElement.innerText = ""; 
-        }
-        if (fileSizeElement) {
-            fileSizeElement.innerText = ""; 
-        }
-        if (removeBtn) {
-            removeBtn.classList.add("hidden"); 
-        }
+      return true;
+    }
+
+    function toggleTextarea() {
+      let textarea = document.getElementById("jd-2");
+      let icon = document.getElementById("btn-icon");
+      textarea.classList.toggle("hidden");
+      if (textarea.classList.contains("hidden")) {
+        textarea.value = "";
+        icon.classList.remove("hidden");
+      } else {
+        icon.classList.add("hidden");
+      }
+    }
+
+    window.onload = function () {
+      let fileInput = document.getElementById("file-upload");
+      let fileNameElement = document.getElementById("file-name");
+      let fileSizeElement = document.getElementById("file-size");
+      let removeBtn = document.getElementById("remove-btn");
+
+      if (fileInput) {
+        fileInput.value = "";
+      }
+      if (fileNameElement) {
+        fileNameElement.innerText = "";
+      }
+      if (fileSizeElement) {
+        fileSizeElement.innerText = "";
+      }
+      if (removeBtn) {
+        removeBtn.classList.add("hidden");
+      }
     };
-    
-    </script>
-  </body>
+
+  </script>
+</body>
+
 </html>

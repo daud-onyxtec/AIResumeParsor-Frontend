@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 ]
 
 
-NGROK_URL = "https://198a-210-56-23-198.ngrok-free.app/"
+NGROK_URL = "https://65f0-210-56-23-198.ngrok-free.app"
 
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS= ['127.0.0.1']
