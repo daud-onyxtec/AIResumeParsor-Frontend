@@ -11,32 +11,19 @@
   <script src="https://kit.fontawesome.com/3ec3c5eb83.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="bg-gray-100 h-screen flex flex-col justify-center items-center">
-
-  <div class="theme relative top-10 left-[700px]">
-    <label class="relative inline-flex items-center cursor-pointer mt-12">
-      <input class="sr-only peer" value="" type="checkbox" />
-      <div
-        class="w-16 h-8 rounded-full ring-0 peer duration-500 outline-none bg-gray-200 overflow-hidden before:flex before:items-center before:justify-center after:flex after:items-center after:justify-center before:content-['☀️'] before:absolute before:h-6 before:w-6 before:top-1/2 before:bg-white before:rounded-full before:left-1 before:-translate-y-1/2 before:transition-all before:duration-700 peer-checked:before:opacity-0 peer-checked:before:rotate-90 peer-checked:before:-translate-y-full shadow-lg shadow-gray-400 peer-checked:shadow-lg peer-checked:shadow-gray-700 peer-checked:bg-[#383838] after:content-['🌑'] after:absolute after:bg-[#1d1d1d] after:rounded-full after:top-[4px] after:right-1 after:translate-y-full after:w-6 after:h-6 after:opacity-0 after:transition-all after:duration-700 peer-checked:after:opacity-100 peer-checked:after:rotate-180 peer-checked:after:translate-y-0">
-      </div>
-    </label>
-  </div>
-  
-
+<body class="bg-gray-100 flex flex-col justify-center items-center">
   <div class="my-20 p-6 w-full md:max-w-2xl lg:max-w-3xl xl:max-w-5xl bg-white 2xl:space-y-10 shadow-md rounded-lg">
     <div class="pt-4 text-blue-600 text-center space-y-3">
       <h1 class="text-3xl md:text-5xl font-bold">
         Parse Your Resume in Seconds
       </h1>
       <p class="text-base text-gray-700 md:text-lg">
-        Upload your resume and let our AI extract all the important details
-        for you.
+        Upload your resume and let our AI extract all the important details for you.
       </p>
     </div>
-    <form action="{% url 'parse_resume' %}" onsubmit="return formValidation()" method="post"
-      enctype="multipart/form-data">
+    <form action="{% url 'parse_resume' %}" onsubmit="return formValidation()" method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      {% comment %} Section-1 {% endcomment %}
+      {% comment %}  Section-1  {% endcomment %}
       <div id="ta-1"
         class="mb-6 p-4 caret-blue-600 border border-gray-400 focus-within:border-2 focus-within:border-blue-600 rounded-lg text-center">
         <textarea placeholder="Enter The Job Describtion" name="jd_a" id="jd-1"
@@ -44,9 +31,8 @@
       </div>
 
       <div
-        class="mb-6 p-4  caret-blue-600 border border-gray-400 focus-within:border-2 focus-within:border-blue-600 rounded-lg text-center flex flex-col justify-center items-center">
-        <div class="cursor-pointer  transition duration-300 flex justify-center items-center"
-          onclick="toggleTextarea()">
+        class="mb-6 p-4 caret-blue-600 border border-gray-400 focus-within:border-2 focus-within:border-blue-600 rounded-lg text-center flex flex-col justify-center items-center">
+        <div class="cursor-pointer transition duration-300 flex justify-center items-center" onclick="toggleTextarea()">
           <svg class="stroke-blue-600 fill-none hover:fill-white active:rotate-45 transition duration-300"
             viewBox="0 0 24 24" height="35px" width="50px" xmlns="http://www.w3.org/2000/svg">
             <path stroke-width="1.5"
@@ -59,10 +45,9 @@
 
         <textarea placeholder="Enter The Job Description (Optional)" name="jd_b" id="jd-2"
           class="hidden w-full h-24 lg:h-40 resize-none text-justify outline-none focus:ring-0 border-none bg-white"></textarea>
-
       </div>
 
-      {% comment %} Section-2 {% endcomment %}
+       {% comment %} Section-2: {% endcomment %}
       <div class="py-2 border border-dashed border-black hover:border-blue-600 rounded-lg text-center">
         <div>
           <p class="mt-2 text-gray-700">Drag and Drop your resume here</p>
@@ -70,99 +55,103 @@
             Supported formats: PDF, DOC, DOCX <br> (Max Size: 200KB)
           </p>
         </div>
-        <div class="w-40 mt-4 mx-auto bg-blue-600 text-white py-2 rounded-lg">
+        <div class="w-40 mt-4 mx-auto bg-blue-600 text-white py-2 rounded-lg cursor-pointer">
           <i class="fa-solid fa-arrow-up-from-bracket"></i>
-          <label for="file-upload" class=""> Upload Resume </label>
-          <input id="file-upload" name="resume" type="file" class="hidden" onchange="validateFileType(this)" />
+          <label for="file-upload" class="cursor-pointer"> Upload Resume </label>
+          <input id="file-upload" multiple name="resume" type="file" class="hidden" onchange="handleFiles(this)" />
         </div>
-
-        <div class="my-2 flex justify-center gap-3">
-          <div class="flex flex-col">
-            <p id="file-name" class="w-52 sm:w-64 text-black bg-orange-200"></p>
-            <p id="file-size" class="text-red-600"></p>
-          </div>
-          <button class="hidden" id="remove-btn" onclick="removeFile()">
-            <i class="fa-regular fa-trash-can fa-lg text-red-500"></i>
-          </button>
-        </div>
+        <ul id="file-list" class="my-2 flex flex-col"></ul>
       </div>
 
-      {% comment %} Section-3 {% endcomment %}
+      {% comment %}  Section-3 {% endcomment %}
       <div class="btn flex justify-center">
-        <button class="w-full md:w-72 mt-4 py-3 bg-blue-600 text-white text-base rounded-lg hover:bg-blue-700">
+        <button type="submit"
+          class="w-full md:w-72 mt-4 py-3 bg-blue-600 text-white text-base rounded-lg hover:bg-blue-700">
           Parse Resume
         </button>
       </div>
-
-  </div>
-  </form>
+    </form>
   </div>
 
-  <!-- Loading Animation -->
+   {% comment %} Loading Animation  {% endcomment %}
   <div id="loading" style="display: none"
     class="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center gap-10 z-50">
     <div class="loader"></div>
     <p class="text-white mt-3">Parsing resume, please wait...</p>
   </div>
 
-  {% comment %} script to handle file type {% endcomment %}
+   {% comment %} Scripts  {% endcomment %}
   <script>
-    function validateFileType(input) {
-      const file = input.files[0];
-      const file_size = document.getElementById("file-size");
-      const removeBtn = document.getElementById("remove-btn");
-      const file_name = document.getElementById("file-name");
-      if (file) {
-        const allowedExtensions = ["pdf", "docx"];
-        const fileExtension = file.name.split(".").pop().toLowerCase();
-        if (!allowedExtensions.includes(fileExtension)) {
-          alert("Invalid file type. Only PDF and DOCX files are allowed.");
-          input.value = "";
-          file_name.textContent = "";
-          removeBtn.classList.add("hidden");
-          return false;
-        }
+    let uploadedFiles = [];
 
-        if (file.size > 200 * 1024) {
-          file_size.innerText = "File size Exceed to 200KB";
-          input.value = "";
-          file_name.textContent = "";
-          removeBtn.classList.add("hidden");
-          return false;
-        }
+    function handleFiles(input) {
+      const allowedExtensions = ["pdf", "doc", "docx"];
+      const maxSize = 200 * 1024; 
 
-        file_name.textContent = file.name;
-        file_size.innerText = "";
-        removeBtn.classList.remove("hidden");
-      }
-      return true;
+      Array.from(input.files).forEach(file => {
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (!allowedExtensions.includes(ext)) {
+          alert(`Invalid file type: ${file.name} \nOnly PDF, DOC, and DOCX files are allowed.`);
+          return;
+        }
+        if (file.size > maxSize) {
+          alert(`File size exceeds 200KB: ${file.name}`);
+          return;
+        }
+        uploadedFiles.push(file);
+      });
+
+      input.value = "";
+      renderFileList();
     }
 
-    function removeFile() {
-      document.getElementById("file-name").textContent = "";
-      document.getElementById("file-upload").value = "";
-      document.getElementById("remove-btn").classList.add("hidden");
+    function renderFileList() {
+      const fileListEl = document.getElementById("file-list");
+      fileListEl.innerHTML = "";
+
+      uploadedFiles.forEach((file, index) => {
+        const li = document.createElement("li");
+        li.className = "bg-orange-200 p-3  my-1 rounded text-black flex flex-row items-center justify-between gap-2 w-56 mx-auto";
+        li.innerHTML = `
+          <span>${file.name}</span>
+          <button class="text-red-600" onclick="removeFile(${index})">
+            <i class="fa-regular fa-trash-can fa-lg"></i>
+          </button>
+        `;
+        fileListEl.appendChild(li);
+      });
+    }
+
+    function removeFile(index) {
+      uploadedFiles.splice(index, 1);
+      renderFileList();
     }
 
     function formValidation() {
       const jd_1 = document.getElementById("jd-1").value.trim();
-      const jd_2 = document.getElementById("jd-2").value.trim();
-      const upload = document.getElementById("file-upload").files.length;
+      const uploadCount = uploadedFiles.length;
       const submitButton = document.querySelector("button[type='submit']");
       const loadingDiv = document.getElementById("loading");
 
-      if (jd_1 === "" && upload === 0) {
+      if (jd_1 === "" && uploadCount === 0) {
         alert("Fields should not be empty!");
         return false;
       }
-      if (upload === 0) {
+      if (uploadCount === 0) {
         alert("File should be Uploaded");
         return false;
       }
       if (jd_1 === "") {
-        alert("Primary Field should not be3 Empty");
+        alert("Primary Field should not be Empty");
         return false;
       }
+
+      if (uploadedFiles.length > 0) {
+        const dt = new DataTransfer();
+        uploadedFiles.forEach(file => dt.items.add(file));
+        document.getElementById("file-upload").files = dt.files;
+      }
+
       if (loadingDiv) {
         loadingDiv.style.display = "flex";
       }
@@ -186,25 +175,10 @@
     }
 
     window.onload = function () {
-      let fileInput = document.getElementById("file-upload");
-      let fileNameElement = document.getElementById("file-name");
-      let fileSizeElement = document.getElementById("file-size");
-      let removeBtn = document.getElementById("remove-btn");
-
-      if (fileInput) {
-        fileInput.value = "";
-      }
-      if (fileNameElement) {
-        fileNameElement.innerText = "";
-      }
-      if (fileSizeElement) {
-        fileSizeElement.innerText = "";
-      }
-      if (removeBtn) {
-        removeBtn.classList.add("hidden");
-      }
+      uploadedFiles = [];
+      document.getElementById("file-upload").value = "";
+      document.getElementById("file-list").innerHTML = "";
     };
-
   </script>
 </body>
 
